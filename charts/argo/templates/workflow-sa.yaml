@@ -10,4 +10,18 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Values.workflow.serviceAccount.name }}:anyuid-psp
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cargo:anyuid-psp
+subjects:
+- kind: ServiceAccount
+  name: {{ .Values.workflow.serviceAccount.name }}
+
 {{- end }}
